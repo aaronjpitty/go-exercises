@@ -5,33 +5,29 @@ import (
 	"strings"
 )
 
+// Run outside of the function to speed up regex compilation
+var containsLetters = regexp.MustCompile(`\pL`)
+var containsLowerCase = regexp.MustCompile(`\p{Ll}`)
+
 // Hey function which responds correctly
 func Hey(remark string) string {
-	remark = strings.Trim(remark, " \t\n\r")
-
-	re, _ := regexp.Compile("[a-zA-Z]+")
-
-	// Check if the string was all capitals
-	yelled := strings.ToUpper(remark) == remark && (len(re.FindAllString(remark, -1)) > 0)
+	str := strings.TrimSpace(remark)
+	letters := containsLetters.MatchString(str)
+    lowers := containsLowerCase.MatchString(str)
+    yelled := letters && !lowers
+	question := strings.HasSuffix(str, "?")
 	
-	// Check if the string had a question mark
-	question := strings.HasSuffix(remark, "?")
-
-	if yelled {
-		if question {
-			return "Calm down, I know what I'm doing!"
-		}
-		return "Whoa, chill out!"
-	}
-
-	if question {
-		return "Sure."
-	}
-
-	if remark == "" {
-		return "Fine. Be that way!"
-	}
-
-	return "Whatever."
+	switch {
+	case yelled && question:
+        return "Calm down, I know what I'm doing!"
+    case yelled:
+        return "Whoa, chill out!"
+    case question:
+        return "Sure."
+    case str == "":
+        return "Fine. Be that way!"
+    default:
+        return "Whatever."
+    }
 
 }
