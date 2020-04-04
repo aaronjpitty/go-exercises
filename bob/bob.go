@@ -1,15 +1,33 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package bob should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
 package bob
 
-// Hey should have a comment documenting it.
+import (
+	"regexp"
+	"strings"
+)
+
+// Run outside of the function to speed up regex compilation
+var containsLetters = regexp.MustCompile(`\pL`)
+var containsLowerCase = regexp.MustCompile(`\p{Ll}`)
+
+// Hey function which responds correctly
 func Hey(remark string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	return ""
+	str := strings.TrimSpace(remark)
+	letters := containsLetters.MatchString(str)
+	lowers := containsLowerCase.MatchString(str)
+	yelled := letters && !lowers
+	question := strings.HasSuffix(str, "?")
+
+	switch {
+	case yelled && question:
+		return "Calm down, I know what I'm doing!"
+	case yelled:
+		return "Whoa, chill out!"
+	case question:
+		return "Sure."
+	case str == "":
+		return "Fine. Be that way!"
+	default:
+		return "Whatever."
+	}
+
 }
