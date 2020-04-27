@@ -1,39 +1,30 @@
 package space
 
+// Planet type of string
 type Planet string
 
-var (
-	earthSeconds float64 = 31557600
-)
+const earthSeconds float64 = 31557600
 
-// Return earth-years old value for given seconds on specific planet
-func Age(seconds float64, planet Planet) float64 {
-	return seconds / planetOrbitalPeriod(planet)
+var planetsOrbital = map[Planet]float64{
+	"Mercury": 0.2408467,
+	"Venus":   0.61519726,
+	"Earth":   1.0,
+	"Mars":    1.8808158,
+	"Jupiter": 11.862615,
+	"Saturn":  29.447498,
+	"Uranus":  84.016846,
+	"Neptune": 164.79132,
 }
 
-func planetOrbitalPeriod(planet Planet) float64 {
+// Age - Return earth-years old value for given seconds on specific planet
+func Age(seconds float64, planet Planet) (age float64) {
 
-	// I wonder if there is a cleaner way of handling this.
-	// It was switch/case or if statements in my head.
-	// Both are a bit cluttered.
-	switch {
-	case planet == "Mercury":
-		return 0.2408467 * earthSeconds
-	case planet == "Venus":
-		return 0.61519726 * earthSeconds
-	case planet == "Earth":
-		return earthSeconds
-	case planet == "Mars":
-		return 1.8808158 * earthSeconds
-	case planet == "Jupiter":
-		return 11.862615 * earthSeconds
-	case planet == "Saturn":
-		return 29.447498 * earthSeconds
-	case planet == "Uranus":
-		return 84.016846 * earthSeconds
-	case planet == "Neptune":
-		return 164.79132 * earthSeconds
-	}
+	// convert seconds to earth years
+	age = seconds / earthSeconds
 
-	return earthSeconds
+	// adjust seconds based on select planet
+	age /= planetsOrbital[planet]
+
+	//round to the nearest two significant digits
+	return age
 }
