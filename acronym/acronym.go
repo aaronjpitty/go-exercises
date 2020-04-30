@@ -4,17 +4,25 @@ import (
 	"strings"
 )
 
+// Abbreviate function to get the acronym of words
 func Abbreviate(s string) string {
 
-	words := strings.Split(s, " ")
+	// replace all hyphens with space
+	spaces := strings.ReplaceAll(s, "-", " ")
+	// replace all underscors with nothing, (thus removing underscores)
+	unders := strings.ReplaceAll(spaces, "_", "")
+	// split a string into substrings, removing any space characters, including newlines
+	words := strings.Fields(unders)
 
 	res := ""
-	acr := ""
 
 	for _, word := range words {
-		res = res + string([]rune(word)[0])
+		// slice each word in words to give us just the individual letters
+		res += word[0:1]
 	}
 
+	// Ensure acronym is in capitals
+	acr := ""
 	acr = acr + strings.ToUpper(res)
 
 	return acr
