@@ -14,7 +14,7 @@ func Abbreviate(s string) string {
 	// split a string into substrings, removing any space characters, including newlines
 	words := strings.Fields(unders)
 
-	res := ""
+	var res string
 
 	for _, word := range words {
 		// slice each word in words to give us just the individual letters
