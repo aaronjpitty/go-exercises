@@ -21,9 +21,5 @@ func Abbreviate(s string) string {
 		res += word[0:1]
 	}
 
-	// Ensure acronym is in capitals
-	acr := ""
-	acr = acr + strings.ToUpper(res)
-
-	return acr
+	return strings.ToUpper(res)
 }
