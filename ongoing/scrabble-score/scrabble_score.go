@@ -27,7 +27,7 @@ func GetScore(r rune) int {
 // Score takes a word and returns the value of that word
 // according to scrabble scoring rules
 func Score(w string) int {
-	score := 0
+	var score int
 	for _, r := range strings.ToUpper(w) {
 		score += GetScore(r)
 	}
